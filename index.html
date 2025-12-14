@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Undangan Pernikahan Anisa & Doni</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #fdf4f7, #f6e6ec);
+      color: #3e2a2a;
+      text-align: center;
+    }
+    .container { max-width: 720px; margin: auto; padding: 50px 22px; }
+    .hero {
+      padding: 80px 25px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, #ffffffee, #ffffffc9);
+      box-shadow: 0 25px 45px rgba(0,0,0,0.08);
+      margin-bottom: 40px;
+    }
+    h1 { font-family: 'Playfair Display', serif; font-size: 42px; }
+    h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin-top: 25px; }
+    p { font-size: 15.5px; line-height: 1.8; }
+    .divider {
+      width: 70px; height: 2px;
+      background: linear-gradient(to right, #c9a063, #e7cfa1, #c9a063);
+      margin: 22px auto;
+    }
+    .card {
+      background: #ffffffea;
+      border-radius: 22px;
+      padding: 30px 26px;
+      margin: 26px 0;
+      box-shadow: 0 18px 35px rgba(0,0,0,0.07);
+    }
+    .names { font-size: 30px; font-family: 'Playfair Display', serif; }
+    .amp { font-size: 26px; color: #b08b57; }
+    .countdown { font-size: 18px; font-weight: 500; }
+    .btn {
+      display: inline-block; margin-top: 18px; padding: 12px 28px;
+      border-radius: 40px; background: linear-gradient(135deg, #c9a063, #e8cfa0);
+      color: #fff; text-decoration: none; border: none; cursor: pointer;
+    }
+    input, select {
+      width: 100%; padding: 12px; margin-top: 10px;
+      border-radius: 12px; border: 1px solid #ddd;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+    }
+    .gallery div {
+      background: #f0e4e8;
+      height: 180px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9a7a7a;
+      font-size: 13px;
+    }
+    .music-btn {
+      position: fixed; bottom: 20px; right: 20px;
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, #c9a063, #e8cfa0);
+      color: #fff; border: none; font-size: 18px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<!-- MUSIK -->
+<audio id="bgm" loop>
+  <source src="musik.mp3" type="audio/mpeg">
+</audio>
+<button class="music-btn" onclick="toggleMusic()">♪</button>
+
+<script>
+  // Musik play setelah interaksi
+  const bgm = document.getElementById('bgm');
+  document.addEventListener('click', () => { if (bgm.paused) bgm.play(); }, { once: true });
+  function toggleMusic() { bgm.paused ? bgm.play() : bgm.pause(); }
+
+  // Nama tamu dari URL
+  const params = new URLSearchParams(window.location.search);
+  const guest = params.get('to');
+  window.onload = () => { if (guest) document.getElementById('guestName').innerText = guest; };
+
+  // Countdown Hari H (UBAH TANGGAL JIKA PERLU)
+  const weddingDate = new Date('2025-12-20T08:00:00').getTime();
+  setInterval(() => {
+    const now = new Date().getTime();
+    const d = weddingDate - now;
+    if (d < 0) return;
+    const days = Math.floor(d / (1000*60*60*24));
+    document.getElementById('countdown').innerText = days + ' hari menuju Hari Bahagia';
+  }, 1000);
+
+  // RSVP ke WhatsApp + Google Sheet
+  function sendRSVP(e) {
+    e.preventDefault();
+    const name = document.getElementById('rsvpName').value;
+    const status = document.getElementById('rsvpStatus').value;
+    const phone = '628XXXXXXXXXX'; // GANTI NOMOR WA KAMU
+    const msg = `Assalamu’alaikum, saya ${name}. Konfirmasi kehadiran: ${status} pada pernikahan Anisa & Doni.`;
+
+    // Kirim ke WhatsApp
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+
+    // Backup ke Google Sheet (Apps Script Web App)
+    fetch('https://script.google.com/macros/s/AKSES_SCRIPT_KAMU/exec', {
+      method: 'POST',
+      body: JSON.stringify({ nama: name, status: status }),
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+</script>
+
+<div class="container">
+
+  <div class="hero">
+    <p>Kepada Yth:</p>
+    <h2 id="guestName">Tamu Undangan</h2>
+    <div class="divider"></div>
+    <p><em>Assalamu’alaikum Warahmatullahi Wabarakatuh</em></p>
+    <h1>Undangan Pernikahan</h1>
+    <p>Dengan memohon rahmat dan ridho Allah SWT,
+    kami mengundang Bapak/Ibu/Saudara/i
+    untuk menghadiri pernikahan kami</p>
+
+    <h2 class="names">Anisa Amelia Putri</h2>
+    <p>Putri dari Bapak & Ibu</p>
+
+    <div class="amp">&</div>
+
+    <h2 class="names">Doni Setiawan Putra</h2>
+    <p>Putra dari Bapak & Ibu</p>
+
+    <div class="divider"></div>
+    <p class="countdown" id="countdown"></p>
+  </div>
+
+  <div class="card">
+    <h2>Akad Nikah</h2>
+    <div class="divider"></div>
+    <p><strong>Hari, Tanggal</strong></p>
+    <p>Pukul: 08.00 WIB</p>
+    <p>Tempat: Lokasi Akad Nikah</p>
+  </div>
+
+  <div class="card">
+    <h2>Resepsi</h2>
+    <div class="divider"></div>
+    <p><strong>Hari, Tanggal</strong></p>
+    <p>Pukul: 11.00 WIB</p>
+    <p>Tempat: Lokasi Resepsi</p>
+  </div>
+
+  <div class="card">
+    <h2>Galeri Prewedding</h2>
+    <div class="divider"></div>
+    <div class="gallery">
+      <div>Foto 1</div>
+      <div>Foto 2</div>
+      <div>Foto 3</div>
+      <div>Foto 4</div>
+    </div>
+    <p style="margin-top:12px;font-size:13px;">(Ganti dengan foto prewedding kamu)</p>
+  </div>
+
+  <div class="card">
+    <h2>RSVP & Konfirmasi Kehadiran</h2>
+    <form onsubmit="sendRSVP(event)">
+      <input id="rsvpName" type="text" placeholder="Nama" required>
+      <select id="rsvpStatus" required>
+        <option value="">Konfirmasi Kehadiran</option>
+        <option value="Hadir">Hadir</option>
+        <option value="Tidak Hadir">Tidak Hadir</option>
+      </select>
+      <button class="btn" type="submit">Kirim via WhatsApp</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Lokasi Acara</h2>
+    <p>Silakan klik tombol di bawah untuk melihat lokasi acara</p>
+    <a class="btn" href="https://maps.google.com" target="_blank">Buka Google Maps</a>
+  </div>
+
+  <div class="footer">
+    <p><strong>Anisa & Doni</strong></p>
+    <p>QS. Ar-Rum: 21</p>
+  </div>
+
+</div>
+
+</body>
+</html>
